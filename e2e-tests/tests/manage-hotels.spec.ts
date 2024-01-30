@@ -4,6 +4,7 @@ import path from 'path';
 const UI_URL = "http://localhost:5173/"
 
 test.beforeEach(async({ page }) => {
+    // Log in 
     await page.goto(UI_URL);
     await page.getByRole('link', { name: "Sign In" }).click();
     let url = page.url();
@@ -41,4 +42,18 @@ test("should allow the user to add a hotel", async({ page }) => {
 
     await page.getByRole('button', { name: "Save" }).click();
     await expect (page.getByText("Hotel saved!")).toBeVisible();
+})
+
+test("should display hotels", async ({ page }) => {
+    await page.goto(`${UI_URL}my-hotels`);
+    await expect(page.getByText("Dublin Getaways")).toBeVisible();
+    await expect(page.getByText("Lorem ipsum dolor sit amet")).toBeVisible();
+    await expect(page.getByText("Dublin, Ireland")).toBeVisible();
+    await expect(page.getByText("All Inclusive")).toBeVisible();
+    await expect(page.getByText("$119 per night")).toBeVisible();
+    await expect(page.getByText("2 adults, 3 children")).toBeVisible();
+    await expect(page.getByText("2 Star Rating")).toBeVisible();
+
+    await expect(page.getByRole("link", { name: "View Details" }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
 })
