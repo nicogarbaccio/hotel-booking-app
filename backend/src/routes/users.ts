@@ -1,132 +1,73 @@
 import express, { Request, Response } from "express";
-import multer from "multer";
-import cloudinary from "cloudinary";
-import Hotel from "../models/hotel";
+import User from "../models/user";
+import jwt from "jsonwebtoken";
+import { check, validationResult } from "express-validator";
 import verifyToken from "../middleware/auth";
-import { body } from "express-validator";
-import { HotelType } from "../shared/types";
 
 const router = express.Router();
 
-const storage = multer.memoryStorage();
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
-  },
+router.get("/me", verifyToken, async (req: Request, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
 });
 
 router.post(
-  "/",
-  verifyToken,
+  "/register",
   [
-    body("name").notEmpty().withMessage("Name is required"),
-    body("city").notEmpty().withMessage("City is required"),
-    body("country").notEmpty().withMessage("Country is required"),
-    body("description").notEmpty().withMessage("Description is required"),
-    body("type").notEmpty().withMessage("Hotel type is required"),
-    body("pricePerNight")
-      .notEmpty()
-      .isNumeric()
-      .withMessage("Price per night is required and must be a number"),
-    body("facilities")
-      .notEmpty()
-      .isArray()
-      .withMessage("Facilities are required"),
+    check("firstName", "First Name is required").isString(),
+    check("lastName", "Last Name is required").isString(),
+    check("email", "Email is required").isEmail(),
+    check("password", "Password with 6 or more characters required").isLength({
+      min: 6,
+    }),
   ],
-  upload.array("imageFiles", 6),
   async (req: Request, res: Response) => {
-    try {
-      const imageFiles = req.files as Express.Multer.File[];
-      const newHotel: HotelType = req.body;
-
-      const imageUrls = await uploadImages(imageFiles);
-
-      newHotel.imageUrls = imageUrls;
-      newHotel.lastUpdated = new Date();
-      newHotel.userId = req.userId;
-
-      const hotel = new Hotel(newHotel);
-      await hotel.save();
-
-      res.status(201).send(hotel);
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ message: "Something went wrong" });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array() });
     }
-  }
-);
 
-router.get("/", verifyToken, async (req: Request, res: Response) => {
-  try {
-    const hotels = await Hotel.find({ userId: req.userId });
-    res.json(hotels);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching hotels" });
-  }
-});
-
-router.get("/:id", verifyToken, async (req: Request, res: Response) => {
-  const id = req.params.id.toString();
-  try {
-    const hotel = await Hotel.findOne({
-      _id: id,
-      userId: req.userId,
-    });
-    res.json(hotel);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching hotels" });
-  }
-});
-
-router.put(
-  "/:hotelId",
-  verifyToken,
-  upload.array("imageFiles"),
-  async (req: Request, res: Response) => {
     try {
-      const updatedHotel: HotelType = req.body;
-      updatedHotel.lastUpdated = new Date();
+      let user = await User.findOne({
+        email: req.body.email,
+      });
 
-      const hotel = await Hotel.findOneAndUpdate(
-        {
-          _id: req.params.hotelId,
-          userId: req.userId,
-        },
-        updatedHotel,
-        { new: true }
-      );
-
-      if (!hotel) {
-        return res.status(404).json({ message: "Hotel not found" });
+      if (user) {
+        return res.status(400).json({ message: "User already exists" });
       }
 
-      const files = req.files as Express.Multer.File[];
-      const updatedImageUrls = await uploadImages(files);
+      user = new User(req.body);
+      await user.save();
 
-      hotel.imageUrls = [
-        ...updatedImageUrls,
-        ...(updatedHotel.imageUrls || []),
-      ];
+      const token = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET_KEY as string,
+        {
+          expiresIn: "1d",
+        }
+      );
 
-      await hotel.save();
-      res.status(201).json(hotel);
+      res.cookie("auth_token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 86400000,
+      });
+      return res.status(200).send({ message: "User registered OK" });
     } catch (error) {
-      res.status(500).json({ message: "Something went throw" });
+      console.log(error);
+      res.status(500).send({ message: "Something went wrong" });
     }
   }
 );
-
-async function uploadImages(imageFiles: Express.Multer.File[]) {
-  const uploadPromises = imageFiles.map(async (image) => {
-    const b64 = Buffer.from(image.buffer).toString("base64");
-    let dataURI = "data:" + image.mimetype + ";base64," + b64;
-    const res = await cloudinary.v2.uploader.upload(dataURI);
-    return res.url;
-  });
-
-  const imageUrls = await Promise.all(uploadPromises);
-  return imageUrls;
-}
 
 export default router;

@@ -38,18 +38,18 @@ const SearchResultsCard = ({ hotel }: Props) => {
 
         <div className="grid grid-cols-2 items-end whitespace-nowrap">
           <div className="flex gap-1 items-center">
-            {hotel.facilities.slice(0, 3).map((facility) => (
+            {hotel.facilities.slice(0, 2).map((facility) => (
               <span className="bg-slate-300 p-2 rounded-lg font-bold text-xs whitespace-nowrap">
                 {facility}
               </span>
             ))}
             <span className="text-sm">
-              {hotel.facilities.length > 3 &&
-                `+${hotel.facilities.length - 3} more`}
+              {hotel.facilities.length > 2 &&
+                `+${hotel.facilities.length - 2} more`}
             </span>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <span className="font-bold">£{hotel.pricePerNight} per night</span>
+            <span className="font-bold">${hotel.pricePerNight} per night</span>
             <Link
               to={`/detail/${hotel._id}`}
               className="bg-blue-600 text-white h-full p-2 font-bold text-xl max-w-fit hover:bg-blue-500"
