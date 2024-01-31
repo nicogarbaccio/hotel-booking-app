@@ -6,6 +6,7 @@ const DetailsSection = () => {
     register,
     formState: { errors },
   } = useFormContext<HotelFormData>();
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold mb-3">Add Hotel</h1>
@@ -45,7 +46,6 @@ const DetailsSection = () => {
           )}
         </label>
       </div>
-
       <label className="text-gray-700 text-sm font-bold flex-1">
         Description
         <textarea
@@ -78,10 +78,10 @@ const DetailsSection = () => {
           className="border rounded w-full p-2 text-gray-700 font-normal"
         >
           <option value="" className="text-sm font-bold">
-            Select a Rating
+            Select as Rating
           </option>
-          {[1, 2, 3, 4, 5].map((number) => (
-            <option value={number}>{number}</option>
+          {[1, 2, 3, 4, 5].map((num) => (
+            <option value={num}>{num}</option>
           ))}
         </select>
         {errors.starRating && (

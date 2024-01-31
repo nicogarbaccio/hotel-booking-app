@@ -22,12 +22,11 @@ const GuestsSection = () => {
             })}
           />
           {errors.adultCount?.message && (
-            <span className="text-red-500 text-sm font-bold">
+            <span className="text-red-500 text-sm fold-bold">
               {errors.adultCount?.message}
             </span>
           )}
         </label>
-
         <label className="text-gray-700 text-sm font-semibold">
           Children
           <input
@@ -39,7 +38,7 @@ const GuestsSection = () => {
             })}
           />
           {errors.childCount?.message && (
-            <span className="text-red-500 text-sm font-bold">
+            <span className="text-red-500 text-sm fold-bold">
               {errors.childCount?.message}
             </span>
           )}

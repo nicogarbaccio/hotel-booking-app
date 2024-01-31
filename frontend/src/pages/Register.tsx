@@ -16,6 +16,7 @@ const Register = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { showToast } = useAppContext();
+
   const {
     register,
     watch,
@@ -25,7 +26,7 @@ const Register = () => {
 
   const mutation = useMutation(apiClient.register, {
     onSuccess: async () => {
-      showToast({ message: "Registration Successful!", type: "SUCCESS" });
+      showToast({ message: "Registration Success!", type: "SUCCESS" });
       await queryClient.invalidateQueries("validateToken");
       navigate("/");
     },
@@ -64,7 +65,7 @@ const Register = () => {
         </label>
       </div>
       <label className="text-gray-700 text-sm font-bold flex-1">
-        Email Address
+        Email
         <input
           type="email"
           className="border rounded w-full py-1 px-2 font-normal"
@@ -101,7 +102,7 @@ const Register = () => {
               if (!val) {
                 return "This field is required";
               } else if (watch("password") !== val) {
-                return "Your passwords do not match";
+                return "Your passwords do no match";
               }
             },
           })}
