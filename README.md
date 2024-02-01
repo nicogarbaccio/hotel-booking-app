@@ -1,3 +1,5 @@
+<img width="1320" alt="Screenshot" src="https://github.com/nicogarbaccio/hotel-booking-app/assets/36672915/0647054f-625e-47fc-a601-6f3eb18ab2b4">
+
 # LetMeBook
 LetMeBook is a full-stack hotel booking app using the MERN stack. The front end is powered by Vite and is written entirely in TypeScript. The backend is fueled by Express and Node.js, while MongoDB is used for the database. Additionally, the app boasts a comprehensive suite of end-to-end tests written in Playwright, covering everything from authentication to booking a hotel, ensuring rock-solid reliability and a seamless user experience. 
 

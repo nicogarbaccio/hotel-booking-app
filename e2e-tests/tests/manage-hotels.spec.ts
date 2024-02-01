@@ -12,12 +12,17 @@ test.beforeEach(async({ page }) => {
     await expect(page.getByRole("heading", { name: "Sign In" })).toBeVisible();
     await page.locator("[name=email]").fill("1@1.com");
     await page.locator("[name=password]").fill("password123");
-    await page.getByRole("button", { name: "Sign In" }).click();
+    await page.getByRole("button", { name: "Log In" }).click();
     await expect(page.getByText("Sign in Successful!")).toBeVisible();
+    await page.getByRole("link", { name: "My Hotels" }).click();
 })
 
 test("should allow the user to add a hotel", async({ page }) => {
-    await page.goto(`${UI_URL}add-hotel`);
+    let currentUrl = page.url();
+    expect(currentUrl).toContain('/my-hotels');
+    await page.getByRole("link", { name: "Add Hotel" }).click();
+    currentUrl = page.url();
+    expect(currentUrl).toContain('/add-hotel');
     
     await page.locator('[name="name"]').fill("Test Hotel");
     await page.locator('[name="city"]').fill("Test City");
@@ -44,36 +49,51 @@ test("should allow the user to add a hotel", async({ page }) => {
     await expect (page.getByText("Hotel saved!")).toBeVisible();
 })
 
-test("should display hotels", async ({ page }) => {
-    await page.goto(`${UI_URL}my-hotels`);
-    await expect(page.getByText("Dublin Getaways")).toBeVisible();
+test("should display a user's hotels", async ({ page }) => {
+    let currentUrl = page.url();
+    expect(currentUrl).toContain('/my-hotels');
+    await expect(page.getByText("New York City Hotel")).toBeVisible();
     await expect(page.getByText("Lorem ipsum dolor sit amet")).toBeVisible();
-    await expect(page.getByText("Dublin, Ireland")).toBeVisible();
-    await expect(page.getByText("All-Inclusive")).toBeVisible();
-    await expect(page.getByText("$119 per night")).toBeVisible();
-    await expect(page.getByText("2 adults, 3 children")).toBeVisible();
-    await expect(page.getByText("2 Star Rating")).toBeVisible();
+    await expect(page.getByText("New York, United States")).toBeVisible();
+    await expect(page.getByText("Boutique")).toBeVisible();
+    await expect(page.getByText("$200 per night")).toBeVisible();
+    await expect(page.getByText("2 adults, 1 children")).toBeVisible();
+    await expect(page.getByText("4 Star Rating")).toBeVisible();
 
     await expect(page.getByRole("link", { name: "View Details" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
 });
 
 test("should edit hotel", async ({ page }) => {
-    await page.goto(`${UI_URL}my-hotels`);
+    let currentUrl = page.url();
+    expect(currentUrl).toContain('/my-hotels');
 
     await page.getByRole("link", { name: "View Details" }).first().click();
+    currentUrl = page.url();
+    expect(currentUrl).toContain('/edit-hotel');
   
     await page.waitForSelector('[name="name"]', { state: "attached" });
-    await expect(page.locator('[name="name"]')).toHaveValue("Dublin Getaways");
-    await page.locator('[name="name"]').fill("Dublin Getaways UPDATED");
+    await expect(page.locator('[name="name"]')).toHaveValue("New York City Hotel");
+    await page.locator('[name="name"]').fill("New York City Hotel UPDATED");
     await page.getByRole("button", { name: "Save" }).click();
     await expect(page.getByText("Hotel Saved!")).toBeVisible();
   
-    await page.reload();
+    currentUrl = page.url();
+    expect(currentUrl).toContain('/my-hotels');
+
+    await expect(page.getByText("New York City Hotel UPDATED")).toBeVisible();
+    await page.getByRole("link", { name: "View Details" }).first().click();
+    currentUrl = page.url();
+    expect(currentUrl).toContain('/edit-hotel');
   
     await expect(page.locator('[name="name"]')).toHaveValue(
-      "Dublin Getaways UPDATED"
+      "New York City Hotel UPDATED"
     );
-    await page.locator('[name="name"]').fill("Dublin Getaways");
+
+    await page.locator('[name="name"]').fill("New York City Hotel");
     await page.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByText("Hotel Saved!")).toBeVisible();
+    await page.waitForTimeout(1000);
+    currentUrl = page.url();
+    expect(currentUrl).toContain('/my-hotels');
 });
