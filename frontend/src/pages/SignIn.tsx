@@ -71,15 +71,15 @@ const SignIn = () => {
       <span className="flex items-center justify-between">
         <span className="text-sm">
           Not Registered?{" "}
-          <Link className="underline" to="/register">
+          <Link className="underline hover:text-[#003049]" to="/register">
             Create an account here
           </Link>
         </span>
         <button
           type="submit"
-          className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
+          className="bg-[#14213d] text-white p-3 rounded-md font-bold hover:bg-[#003049] text-xl"
         >
-          Log in
+          Sign In
         </button>
       </span>
     </form>

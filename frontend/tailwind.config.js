@@ -8,6 +8,13 @@ export default {
         md: "10rem",
       },
     },
+    // colors: {
+    //   blue: '#003049',
+    //   gold: '#f2cc8f',
+    //   green: '#81b29a',
+    //   rose: '#e07a5f',
+    //   offWhite: '#f4f1de',
+    // },
   },
   plugins: [],
 };
