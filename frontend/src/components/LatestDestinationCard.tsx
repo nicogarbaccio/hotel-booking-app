@@ -10,6 +10,7 @@ const LatestDestinationCard = ({ hotel }: Props) => {
     <Link
       to={`/detail/${hotel._id}`}
       className="relative cursor-pointer overflow-hidden rounded-md"
+      data-testid="latest-destination-card"
     >
       <div className="h-[300px]">
         <img

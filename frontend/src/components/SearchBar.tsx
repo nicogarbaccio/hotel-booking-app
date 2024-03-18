@@ -43,6 +43,7 @@ const SearchBar = () => {
           className="text-md w-full focus:outline-none"
           value={destination}
           onChange={(event) => setDestination(event.target.value)}
+          data-testid="search-bar-destination-input"
         />
       </div>
 
@@ -56,6 +57,7 @@ const SearchBar = () => {
             max={20}
             value={adultCount}
             onChange={(event) => setAdultCount(parseInt(event.target.value))}
+            data-testid="adult-count-input"
           />
         </label>
         <label className="items-center flex">
@@ -67,6 +69,7 @@ const SearchBar = () => {
             max={20}
             value={childCount}
             onChange={(event) => setChildCount(parseInt(event.target.value))}
+            data-testid="child-count-input"
           />
         </label>
       </div>
@@ -99,7 +102,10 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex gap-1">
-        <button className="w-2/3 bg-[#14213d] text-white h-full p-2 font-bold text-xl hover:bg-[#003049] rounded-md">
+        <button
+          className="w-2/3 bg-[#14213d] text-white h-full p-2 font-bold text-xl hover:bg-[#003049] rounded-md"
+          data-testid="search-button"
+        >
           Search
         </button>
         {/* <button className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-xl hover:bg-red-500">

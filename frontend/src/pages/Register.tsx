@@ -48,6 +48,7 @@ const Register = () => {
           <input
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("firstName", { required: "This field is required" })}
+            data-testid="register-first-name-input"
           ></input>
           {errors.firstName && (
             <span className="text-red-500">{errors.firstName.message}</span>
@@ -58,6 +59,7 @@ const Register = () => {
           <input
             className="border rounded w-full py-1 px-2 font-normal"
             {...register("lastName", { required: "This field is required" })}
+            data-testid="register-last-name-input"
           ></input>
           {errors.lastName && (
             <span className="text-red-500">{errors.lastName.message}</span>
@@ -70,6 +72,7 @@ const Register = () => {
           type="email"
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("email", { required: "This field is required" })}
+          data-testid="register-email-input"
         ></input>
         {errors.email && (
           <span className="text-red-500">{errors.email.message}</span>
@@ -80,6 +83,7 @@ const Register = () => {
         <input
           type="password"
           className="border rounded w-full py-1 px-2 font-normal"
+          data-testid="register-password-input"
           {...register("password", {
             required: "This field is required",
             minLength: {
@@ -97,6 +101,7 @@ const Register = () => {
         <input
           type="password"
           className="border rounded w-full py-1 px-2 font-normal"
+          data-testid="register-confirm-password-input"
           {...register("confirmPassword", {
             validate: (val) => {
               if (!val) {
@@ -114,7 +119,8 @@ const Register = () => {
       <span>
         <button
           type="submit"
-          className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl"
+          className="bg-[#14213d] hover:bg-[#003049] rounded-md text-white p-2 font-bold text-xl"
+          data-testid="register-submit-button"
         >
           Create Account
         </button>

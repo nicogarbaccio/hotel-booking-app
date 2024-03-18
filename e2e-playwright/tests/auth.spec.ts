@@ -17,7 +17,7 @@ test('should allow the user to sign in', async ({ page }) => {
   await expect(page.getByRole("button", { name: "Sign Out" })).toBeVisible();
 });
 
-test('should allow the user to register', async({ page }) => {
+test('should allow a new user to register', async({ page }) => {
   const testEmail = `test_register_${Math.floor(Math.random() * 9000) + 10000}@test.com`;
   await page.goto(UI_URL);
   await page.getByRole('link', { name: "Sign In" }).click();

@@ -7,7 +7,7 @@ type Props = {
 
 const SearchResultsCard = ({ hotel }: Props) => {
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-8">
+    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-5">
       <div className="w-full h-[300px]">
         <img
           src={hotel.imageUrls[0]}
@@ -52,7 +52,7 @@ const SearchResultsCard = ({ hotel }: Props) => {
             <span className="font-bold">${hotel.pricePerNight} per night</span>
             <Link
               to={`/detail/${hotel._id}`}
-              className="bg-blue-600 text-white h-full p-2 font-bold text-xl max-w-fit hover:bg-blue-500"
+              className="bg-[#14213d] hover:bg-[#003049] rounded-md text-white h-full p-2 font-bold text-xl max-w-fit"
             >
               View More
             </Link>

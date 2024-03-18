@@ -45,6 +45,7 @@ const SignIn = () => {
         <input
           type="email"
           className="border rounded w-full py-1 px-2 font-normal"
+          data-testid="sign-in-email-input"
           {...register("email", { required: "This field is required" })}
         ></input>
         {errors.email && (
@@ -56,6 +57,7 @@ const SignIn = () => {
         <input
           type="password"
           className="border rounded w-full py-1 px-2 font-normal"
+          data-testid="sign-in-password-input"
           {...register("password", {
             required: "This field is required",
             minLength: {
@@ -71,13 +73,18 @@ const SignIn = () => {
       <span className="flex items-center justify-between">
         <span className="text-sm">
           Not Registered?{" "}
-          <Link className="underline hover:text-[#003049]" to="/register">
+          <Link
+            className="underline hover:text-[#003049]"
+            to="/register"
+            data-testid="sign-in-register-link"
+          >
             Create an account here
           </Link>
         </span>
         <button
           type="submit"
           className="bg-[#14213d] text-white p-3 rounded-md font-bold hover:bg-[#003049] text-xl"
+          data-testid="sign-in-submit-button"
         >
           Sign In
         </button>

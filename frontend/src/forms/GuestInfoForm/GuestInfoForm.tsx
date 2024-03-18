@@ -146,7 +146,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: Props) => {
               Book Now
             </button>
           ) : (
-            <button className="bg-[#14213d] text-white h-full p-2 font-bold hover:bg-[#003049] text-xl">
+            <button className="bg-[#14213d] rounded-md text-white h-full p-2 font-bold hover:bg-[#003049] text-xl">
               Sign in to Book
             </button>
           )}
