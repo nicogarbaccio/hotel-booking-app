@@ -20,12 +20,14 @@ const Header = () => {
               <Link
                 className="flex items-center text-white px-3 font-bold hover:rounded-md hover:bg-[#003049]"
                 to="/my-bookings"
+                data-testid="header-my-bookings"
               >
                 My Bookings
               </Link>
               <Link
                 className="flex items-center text-white px-3 font-bold hover:rounded-md hover:bg-[#003049]"
                 to="/my-hotels"
+                data-testid="header-my-hotels"
               >
                 My Hotels
               </Link>

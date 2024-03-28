@@ -99,6 +99,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
             readOnly
             disabled
             {...register("firstName")}
+            data-testid="booking-first-name-input"
           />
         </label>
         <label className="text-gray-700 text-sm font-bold flex-1">
@@ -109,6 +110,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
             readOnly
             disabled
             {...register("lastName")}
+            data-testid="booking-last-name-input"
           />
         </label>
         <label className="text-gray-700 text-sm font-bold flex-1">
@@ -119,6 +121,7 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
             readOnly
             disabled
             {...register("email")}
+            data-testid="booking-email-input"
           />
         </label>
       </div>
@@ -146,7 +149,8 @@ const BookingForm = ({ currentUser, paymentIntent }: Props) => {
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500"
+          className="bg-[#14213d] hover:bg-[#003049] rounded-md text-white p-2 font-bold  text-md disabled:bg-gray-500"
+          data-testid="booking-form-submit-button"
         >
           {isLoading ? "Saving..." : "Confirm Booking"}
         </button>

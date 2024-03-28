@@ -100,6 +100,7 @@ cd mern-booking-app
     - Create a new project (e.g e2e tests)
     - Create a new cluster and follow the instructions to set up a new database.
     - Once set up, obtain your MongoDB connection string and add it to the `MONGODB_CONNECTION_STRING` variable in your `.env.e2e` file.
+    - To run your app in a testing environment, run the front end as usual, but instead of running `npm run dev` for the backend, you'll want to run `npm run e2e`. 
       
 2. **Importing Test Data into MongoDB**:
 
